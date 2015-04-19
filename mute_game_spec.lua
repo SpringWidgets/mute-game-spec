@@ -23,20 +23,20 @@ local spGetMyPlayerID      = Spring.GetMyPlayerID
 local spGetPlayerInfo      = Spring.GetPlayerInfo
 local spSendCommands       = Spring.SendCommands
 local spEcho               = Spring.Echo
+local spGetFPS             = Spring.GetFPS
 
-local frameCounter = 0;
+local goodFPStime = 0;
 
 function widget:Update(dt)
-	--spEcho(dt);
-	if dt < 0.035 then
-		frameCounter = frameCounter+1
-		if frameCounter > 75 then
-			spSendCommands("mutesound")
-			widgetHandler:RemoveWidget()
-		end
-	else
-		frameCounter = 0
-	end
+    if spGetFPS() > 20 then
+        goodFPStime = goodFPStime + dt;
+        if goodFPStime > 2.0 then
+            spSendCommands("mutesound")
+            widgetHandler:RemoveWidget()
+        end
+    else
+        goodFPStime = 0
+    end
 end
 
 function widget:Initialize()
@@ -45,7 +45,7 @@ function widget:Initialize()
 
     if ( spec == true ) then
         spSendCommands("mutesound")
-	else
-		widgetHandler:RemoveWidget()
+    else
+        widgetHandler:RemoveWidget()
     end
 end
