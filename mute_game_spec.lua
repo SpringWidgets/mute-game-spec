@@ -1,24 +1,26 @@
 function widget:GetInfo()
     return {
-        name      = "Mute Game Spec v1.2",
+        name      = "Mute Game Spec v2",
         desc      = "Disables sound when you start spectating battle (you can enable with F6)",
         author    = "[teh]decay aka [teh]undertaker aka [DoR]Saruman & jetbird",
         date      = "18 apr 2015",
         license   = "The BSD License",
         layer     = 0,
-        version   = 1.2,
+        version   = 2,
         enabled   = true  -- loaded by default
     }
 end
 
-
 -- project page on github: https://github.com/SpringWidgets/mute-game-spec
 
 --Changelog
-
--- v 1.2 [teh]decay: swith from FPS based decision to GameProgress based
--- v 1.1    jetbird: added automatic unmute detector
 -- v 1   [teh]decay: initial version
+-- v 1.1    jetbird: added automatic unmute detector
+-- v 1.2 [teh]decay: swith from FPS based decision to GameProgress based
+-- v2    [teh]decay: add variable to control "enable sound when cathed up or not"
+
+local enableSound = true
+
 
 
 local spGetMyPlayerID      = Spring.GetMyPlayerID
@@ -54,7 +56,9 @@ function widget:DrawScreen()
     local currTimer = spGetTimer()
 
     if spDiffTimers(currTimer, initTimer) >= 8 and gameFrame < 0 then
-        spSendCommands("mutesound")
+        if enableSound then
+            spSendCommands("mutesound")
+        end
         widgetHandler:RemoveWidget()
     end
 end
