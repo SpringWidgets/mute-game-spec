@@ -19,7 +19,7 @@ end
 -- v 1.2 [teh]decay: swith from FPS based decision to GameProgress based
 -- v2    [teh]decay: add variable to control "enable sound when cathed up or not"
 
-local enableSound = true
+local enableSound = false
 
 
 
@@ -45,7 +45,9 @@ function widget:GameFrame(myGameFrame)
         local frameDistanceToFinish = serverFrameNum_G - myGameFrame
 
         if frameDistanceToFinish < 1 then
-            spSendCommands("mutesound")
+            if enableSound then
+                spSendCommands("mutesound")
+            end
             widgetHandler:RemoveWidget()
         end
     end
